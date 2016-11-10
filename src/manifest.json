@@ -1,0 +1,28 @@
+{
+  "name": "Nico Douga App",
+  "description": "Niconico Douga App for Chrome.",
+  "author": "kilfu0701",
+  "version": "0.1",
+  "manifest_version": 2,
+  "app": {
+    "background": {
+      "scripts": ["js/background.js"]
+    }
+  },
+  "icons": {
+    "16": "img/calculator-16.png",
+    "128": "img/calculator-128.png"
+  },
+  "permissions": [
+    "fullscreen",
+    "alwaysOnTopWindows",
+    "storage",
+    "webview",
+    "audioCapture",
+    "videoCapture",
+    "pointerLock",
+    "contextMenus",
+    "http://*/*",
+    "https://*/*"
+  ]
+}
