@@ -1,12 +1,12 @@
-require(['config', 'shortcuts', 'tabs', 'tab_content', 'i18n'], function(config, shortcuts, tabs, tab_content, i18n) {
+require(['config', 'shortcuts', 'tabs', 'tab_content', 'i18n', 'storage'], function(config, shortcuts, tabs, tab_content, i18n, storage) {
     'use strict';
 
     $(document).ready(function() {
-        var $main_container = $('#main-container');
-        var _templates = {};
+        let $main_container = $('#main-container');
+        let _templates = {};
 
         $('#templates').children().each(function() {
-            var $this = $(this);
+            let $this = $(this);
             _templates[$this.data('template')] = $this.children().first();
         });
 
@@ -28,20 +28,44 @@ require(['config', 'shortcuts', 'tabs', 'tab_content', 'i18n'], function(config,
             }
         });
 
-        var nicoDougaApp = (function() {
-            var df = $.Deferred();
+        let nicoDougaApp = (function() {
+            let df = $.Deferred();
 
-            window.nicoDougaApp = {};
+            let _logger = function(level, msgs) {
+                if (window.nicoDougaApp.debug_mode) {
+                    window._console[level].apply(this, msgs);
+                }
+            };
+
+            window.nicoDougaApp = {
+                config: {},
+                i18n: {},
+                debug_mode: true,
+                pr: 20
+            };
+
+            // override 'window.console'
+            window._console = window.console;
+            var console = {
+                log:   function() { _logger('log', arguments); },
+                warn:  function() { _logger('warn', arguments); },
+                info:  function() { _logger('info', arguments); },
+                debug: function() { _logger('debug', arguments); },
+                error: function() { _logger('error', arguments); }
+            };
+            window.console = console;
+
             df.resolve();
 
             return df.promise();
         })();
 
         nicoDougaApp
+            .then(storage.init)
             .then(config.init)
+            .then(shortcuts.init)
             .then(config.load)
             .then(i18n.load)
-            .then(shortcuts.init)
             .then(function() {
                 tabs.init(_templates);
                 tab_content.init(_templates);

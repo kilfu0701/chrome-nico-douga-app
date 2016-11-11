@@ -1,23 +1,32 @@
-define(['storage'], function(storage) {
-  'use strict';
+define(['constants', 'storage', 'util'], function(C, storage, util) {
+    'use strict';
 
-  console.log('config.js');
+    var NDA;
+    var prefix = '[config.js]'.padRight(C.LOG_PAD, ' ');
 
-  var init_config = {
-    inited: true,
-    lang: 'zh',
-    defaultURL: 'http://www.nicovideo.jp/video_top',
-    openWithDefaultPageFlag: true
-  };
+    var init_config = {
+        inited: true,
+        lang: 'zh',
+        defaultURL: 'http://www.nicovideo.jp/video_top',
+        openWithDefaultPageFlag: true
+    };
 
-  return {
-    init: function() {
-      return storage.initConfig(init_config);
-    },
+    return {
+        init: function() {
+            NDA = window.nicoDougaApp;
+            window.console.log(prefix, '[init]');
 
-    load: function() {
-      return storage.loadConfig();
-    }
-  };
+            return storage.initConfig(init_config);
+        },
+
+        load: function() {
+            window.console.log(prefix, '[load]');
+
+            return storage.loadConfig().then(function(config) {
+                window.console.log(prefix, '[load] config =', config)
+                NDA.config = config;
+            });
+        }
+    };
 
 });

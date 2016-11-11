@@ -1,14 +1,18 @@
 define(['constants', 'util', 'core', 'i18n'], function(C, util, core, i18n) {
     'use strict';
 
-    console.log('tab_content.js');
+    var NDA;
+    var prefix = '[tab_content.js]'.padRight(C.LOG_PAD, ' ');
 
     var $tab_content_template;
     var $tab_content_alert_template;
     var $tab_webview_template;
     var $tabs;
 
-    function init(templates){
+    function init(templates) {
+        NDA = window.nicoDougaApp;
+        window.console.log(prefix, '[init]');
+
         $tabs = $('.app-right .tabs');
         $tab_content_template = templates['tab-content'];
         $tab_content_alert_template = templates['tab-content-alert'];

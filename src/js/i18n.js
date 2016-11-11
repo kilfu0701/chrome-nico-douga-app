@@ -1,25 +1,28 @@
-define(['_lang'], function(_lang) {
+define(['_lang', 'util', 'constants'], function(_lang, util, C) {
     'use strict';
 
-    var core = {
-        contextMenuRules: {
-            download: ['http://www.nicovideo.jp/watch/*', 'https://www.nicovideo.jp/watch/*']
-        }
-    };
+    var NDA;
+    var prefix = '[i18n.js]'.padRight(C.LOG_PAD, ' ');
 
     return {
         load: function() {
             var df = $.Deferred();
-            var lang = nicoDougaApp.config.lang;
 
-            window.i18n = _lang[lang];
+            NDA = window.nicoDougaApp;
+            window.console.log(prefix, '[load]');
+
+            var lang = NDA.config.lang;
+            NDA.i18n = _lang[lang];
+            window.console.log(prefix, '[load] lang =', lang)
+
             df.resolve()
 
             return df.promise();
         },
 
         t: function(key) {
-            return window.i18n[key];
+            window.console.log(prefix, key + '=' + NDA.i18n[key]);
+            return NDA.i18n[key];
         }
     }
 });

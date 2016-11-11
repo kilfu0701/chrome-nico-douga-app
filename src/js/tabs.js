@@ -2,7 +2,8 @@ define(['constants', 'storage', 'tab_content', 'util'],
     function(C, storage, tab_content, util) {
     'use strict';
 
-    console.log('tabs.js');
+    var NDA;
+    var prefix = '[tabs.js]'.padRight(C.LOG_PAD, ' ');
 
     var _next_tab_id = 0;
     var $node_template;
@@ -21,6 +22,8 @@ define(['constants', 'storage', 'tab_content', 'util'],
     }
 
     function init(templates) {
+        NDA = window.nicoDougaApp;
+        window.console.log(prefix, '[init]');
         window.addEventListener("message", receiveMessage, false);
 
         $node_template = templates['tab-tree-node'];
@@ -88,16 +91,13 @@ define(['constants', 'storage', 'tab_content', 'util'],
     }
 
     function openNewRootTab(e, focus) {
-console.log('open!');
-        storage.loadConfig().then(function(config) {
-            var config = window.nicoDougaApp.config;
-            var url = (config.openWithDefaultPageFlag) ? config.defaultURL : '';
+        var config = nicoDougaApp.config;
+        var url = (config.openWithDefaultPageFlag) ? config.defaultURL : '';
 
-            get_free_tab_id(function(id){
-                var _tab = new Tab(id, undefined, url);
-                _tab.append_to_root();
-                _tab.select_tab();
-            });
+        get_free_tab_id(function(id){
+            var _tab = new Tab(id, undefined, url);
+            _tab.append_to_root();
+            _tab.select_tab();
         });
     }
 

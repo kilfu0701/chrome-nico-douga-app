@@ -1,11 +1,11 @@
 define([], function() {
-  'use strict';
+    'use strict';
 
-  var core = {
-    contextMenuRules: {
-      download: ['http://www.nicovideo.jp/watch/*', 'https://www.nicovideo.jp/watch/*']
-    }
-  };
+    var core = {
+        contextMenuRules: {
+            download: ['http://www.nicovideo.jp/watch/*', 'https://www.nicovideo.jp/watch/*']
+        }
+    };
 
-  return core;
+    return core;
 });
