@@ -1,4 +1,4 @@
-define(['_lang', 'util', 'constants'], function(_lang, util, C) {
+define(['_i18n/lang', 'util', 'constants'], function(lang, util, C) {
     'use strict';
 
     var NDA;
@@ -11,9 +11,9 @@ define(['_lang', 'util', 'constants'], function(_lang, util, C) {
             NDA = window.nicoDougaApp;
             window.console.log(prefix, '[load]');
 
-            var lang = NDA.config.lang;
-            NDA.i18n = _lang[lang];
-            window.console.log(prefix, '[load] lang =', lang)
+            var current_lang = NDA.config.lang;
+            NDA.i18n = lang[current_lang];
+            window.console.log(prefix, '[load] lang =', current_lang)
 
             df.resolve()
 
