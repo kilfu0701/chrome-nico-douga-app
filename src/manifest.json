@@ -24,5 +24,13 @@
     "contextMenus",
     "http://*/*",
     "https://*/*"
-  ]
+  ],
+  "webview": {
+    "partitions": [
+      {
+        "name": "trusted*",
+        "accessible_resources": ["src/js/_inject_script.js"]
+      }
+    ]
+  }
 }

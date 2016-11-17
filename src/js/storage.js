@@ -15,19 +15,10 @@ define(['util', 'constants'], function(util, C) {
         };
     }
 
-    function init() {
-        var df = $.Deferred();
-
-        NDA = window.nicoDougaApp;
-        window.console.log(prefix, '[init]');
-        df.resolve();
-
-        return df.promise();
-    }
-
     function initConfig(data) {
         var df = $.Deferred();
 
+        NDA = window.nicoDougaApp;
         window.console.log(prefix, '[initConfig]', data);
 
         loadConfig().then(function(d) {

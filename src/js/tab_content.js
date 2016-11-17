@@ -1,4 +1,4 @@
-define(['constants', 'util', 'core', 'i18n'], function(C, util, core, i18n) {
+define(['constants', 'util', 'core', 'i18n', 'file_reader'], function(C, util, core, i18n, file_reader) {
     'use strict';
 
     var NDA;
@@ -11,7 +11,7 @@ define(['constants', 'util', 'core', 'i18n'], function(C, util, core, i18n) {
 
     function init(templates) {
         NDA = window.nicoDougaApp;
-        window.console.log(prefix, '[init]');
+        window.console.log(prefix, '[init] templates', templates);
 
         $tabs = $('.app-right .tabs');
         $tab_content_template = templates['tab-content'];
@@ -63,7 +63,12 @@ define(['constants', 'util', 'core', 'i18n'], function(C, util, core, i18n) {
 
     $.extend(TabContent.prototype, {
         _setup_webview: function($webview) {
-            this._webview = $webview.get(0);
+            //this._webview = $webview.get(0);
+            var me = this;
+            $webview = $('<webview>');
+            this._webview = $webview[0];
+            this._webview.src = "https://www.google.com.tw";
+            this._webview.injected = false;
             $webview.appendTo(this.$content.find('.webview-wrapper'));
 
             // add contextMenus
@@ -98,7 +103,27 @@ define(['constants', 'util', 'core', 'i18n'], function(C, util, core, i18n) {
                 this._update_button_states();
             }.bind(this));
 
-            this._webview.addEventListener("loadstop", function(){
+            this._webview.addEventListener("loadstop", function() {
+
+                // inject script into webview.
+                if (!me._webview.injected) {
+                    // inject only once.
+                    me._webview.injected = true;
+
+                    file_reader.read(C.INJECT_SCRIPT_FILE).then(function(code) {
+                        me._webview.executeScript({ code: code }, function(arr) {
+                            console.log(prefix, 'injecte script completed!');
+
+                            me._webview.contentWindow.postMessage(JSON.stringify({id: 'isSignined'}), '*');
+                        });
+                    });
+                }
+
+                var x = this.$content.find('#watchAPIDataContainer');
+                if (x.length === 1) {
+                    console.log(prefix, '[loadstop]', JSON.parse(x.html()));
+                }
+
                 this._url_changed(this._webview.src);
                 this._update_title();
                 this.tab.$node.removeClass("loading").addClass("ready");
@@ -350,6 +375,7 @@ define(['constants', 'util', 'core', 'i18n'], function(C, util, core, i18n) {
         webview: function() {
             if (!this._webview) {
                 this._setup_webview($tab_webview_template.clone());
+                this._setup_webview();
                 if (this.tab.url) {
                     this._webview.src = this.tab.url;
                 }

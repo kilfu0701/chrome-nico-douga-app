@@ -22,7 +22,8 @@ define([], function(){
     return {
         KEYCODES: KEYCODES,
         REGEXES: REGEXES,
-        LOG_PAD: 16
+        LOG_PAD: 16,
+        INJECT_SCRIPT_FILE: 'js/_inject_script.js'
     };
 
 });

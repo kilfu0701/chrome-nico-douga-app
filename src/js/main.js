@@ -1,6 +1,10 @@
 require(['config', 'shortcuts', 'tabs', 'tab_content', 'i18n', 'storage'], function(config, shortcuts, tabs, tab_content, i18n, storage) {
     'use strict';
 
+    window.addEventListener('message', function(e) {
+        console.log('message', e);
+    }, false);
+
     $(document).ready(function() {
         let $main_container = $('#main-container');
         let _templates = {};
@@ -61,7 +65,6 @@ require(['config', 'shortcuts', 'tabs', 'tab_content', 'i18n', 'storage'], funct
         })();
 
         nicoDougaApp
-            .then(storage.init)
             .then(config.init)
             .then(shortcuts.init)
             .then(config.load)
