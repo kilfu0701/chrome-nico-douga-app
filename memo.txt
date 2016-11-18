@@ -1,0 +1,47 @@
+// vars
+JSON.parse($('#watchAPIDataContainer').html());
+
+
+// nico flash elem
+$('#nicoplayerContainerInner')
+
+
+// comments
+http://nmsg.nicovideo.jp/api/
+
+[POST]
+
+<packet>
+  <thread thread="1309980706"
+          version="20061206"
+          res_from="-1000"
+          fork="1"
+          click_revision="-1"
+          scores="1"/>
+  <thread thread="1309980706"
+          version="20090904"
+          userkey="1478855394.~1~YUfcsoc5O5XMMCUcPXTJufygGJWxN27hhheRV7nFfRg"
+          user_id="30215686"
+          scores="1"
+          nicoru="1"
+          with_global="1"/>
+  <thread_leaves thread="1309980706"
+                 userkey="1478855394.~1~YUfcsoc5O5XMMCUcPXTJufygGJWxN27hhheRV7nFfRg"
+                 user_id="30215686"
+                 scores="1"
+                 nicoru="1">0-4:100,250</thread_leaves>
+  <thread thread="1312621314"
+          version="20090904"
+          userkey="1478855394.~1~YUfcsoc5O5XMMCUcPXTJufygGJWxN27hhheRV7nFfRg"
+          user_id="30215686"
+          scores="1"
+          nicoru="1"/>
+  <thread_leaves thread="1312621314"
+                 userkey="1478855394.~1~YUfcsoc5O5XMMCUcPXTJufygGJWxN27hhheRV7nFfRg"
+                 user_id="30215686"
+                 scores="1"
+                 nicoru="1">0-4:100,250</thread_leaves>
+</packet>
+
+
+

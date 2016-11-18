@@ -26,6 +26,10 @@ require(['config', 'shortcuts', 'tabs', 'tab_content', 'i18n', 'storage'], funct
             tabs.unselect_current_tab();
         });
 
+        $('.top-new-tab').on('click', function() {
+            tabs.openNewRootTab(null, true);
+        });
+
         $(window).mousemove(function(e) {
             if (e.clientX > 300) {
                 $main_container.removeClass('reveal-tree');

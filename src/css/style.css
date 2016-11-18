@@ -1340,9 +1340,14 @@ body {
   left: -300px;
 }
 #main-container.collapsed-tree > .inner > .app-right .tab .top {
-  padding-left: 55px;
+  padding-left: 5px;
 }
 #main-container.collapsed-tree.reveal-tree > .inner > .app-left .scroll {
   left: 0;
+}
+button.top-new-tab {
+  padding: 15px;
+  width: 350px;
+  margin: 30px;
 }
 /*# sourceMappingURL=styles/css/style.css.map */

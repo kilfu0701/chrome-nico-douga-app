@@ -39,6 +39,7 @@ define(['constants', 'storage', 'tab_content', 'util'],
             }
 
             load_tab_data(tabs);
+            $('.logo').hide();
         });
 
         storage.addTabsListener(load_tab_data);
@@ -99,19 +100,25 @@ define(['constants', 'storage', 'tab_content', 'util'],
             _tab.append_to_root();
             _tab.select_tab();
         });
+
+        $('.logo').hide();
     }
 
     function openNewTab(callback, select){
         get_free_tab_id(function(id){
             var _tab = new Tab(id, undefined, undefined);
             _tab.append_to_tab(_current);
+
             if (select) {
                 _tab.select_tab();
             }
+
             if (callback) {
                 callback(_tab);
             }
         });
+
+        $('.logo').hide();
     }
 
     function focusOnFirstTab() {
@@ -119,6 +126,8 @@ define(['constants', 'storage', 'tab_content', 'util'],
         if (_tab !== null) {
             _current = _tab;
             _current.select_tab();
+        } else {
+            $('.logo').show();
         }
     }
 
