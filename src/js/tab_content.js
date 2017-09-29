@@ -67,7 +67,7 @@ define(['constants', 'util', 'core', 'i18n', 'file_reader'], function(C, util, c
             var me = this;
             $webview = $('<webview>');
             this._webview = $webview[0];
-            this._webview.src = "https://www.google.com.tw";
+            //this._webview.src = "https://www.google.com.tw";
             this._webview.injected = false;
             $webview.appendTo(this.$content.find('.webview-wrapper'));
 
@@ -77,6 +77,7 @@ define(['constants', 'util', 'core', 'i18n', 'file_reader'], function(C, util, c
                 id: 'id-1',
                 title: i18n.t('contextMenuDownload'),
                 documentUrlPatterns: core.contextMenuRules.download,
+                onclick: function(e) { console.log(e); }
             });
 
             this._webview.addEventListener("findupdate", function(e){
@@ -94,6 +95,7 @@ define(['constants', 'util', 'core', 'i18n', 'file_reader'], function(C, util, c
             }.bind(this));
 
             this._webview.addEventListener("loadstart", function(e){
+                this._webview.injected = false;
                 if(e.isTopLevel){
                     this._url_changed(e.url);
                     this.dismiss_alerts();
@@ -109,11 +111,9 @@ define(['constants', 'util', 'core', 'i18n', 'file_reader'], function(C, util, c
                 if (!me._webview.injected) {
                     // inject only once.
                     me._webview.injected = true;
-
                     file_reader.read(C.INJECT_SCRIPT_FILE).then(function(code) {
                         me._webview.executeScript({ code: code }, function(arr) {
                             console.log(prefix, 'injecte script completed!');
-
                             me._webview.contentWindow.postMessage(JSON.stringify({id: 'isSignined'}), '*');
                         });
                     });

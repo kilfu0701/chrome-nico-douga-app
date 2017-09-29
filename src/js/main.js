@@ -6,6 +6,11 @@ require(['config', 'shortcuts', 'tabs', 'tab_content', 'i18n', 'storage'], funct
     }, false);
 
     $(document).ready(function() {
+        // dynamic remove flash alert message.
+        window.setInterval(function() {
+            $('.alerts').remove();
+        }, 1000);
+
         let $main_container = $('#main-container');
         let _templates = {};
 
@@ -38,9 +43,8 @@ require(['config', 'shortcuts', 'tabs', 'tab_content', 'i18n', 'storage'], funct
 
         let nicoDougaApp = (function() {
             let df = $.Deferred();
-
             let _logger = function(level, msgs) {
-                if (window.nicoDougaApp.debug_mode) {
+                if (window.nicoDougaApp.debugEnabled) {
                     window._console[level].apply(this, msgs);
                 }
             };
@@ -48,13 +52,14 @@ require(['config', 'shortcuts', 'tabs', 'tab_content', 'i18n', 'storage'], funct
             window.nicoDougaApp = {
                 config: {},
                 i18n: {},
-                debug_mode: true,
-                pr: 20
+                debugEnabled: true,
+                pr: 20,
+                user: {}
             };
 
             // override 'window.console'
             window._console = window.console;
-            var console = {
+            let console = {
                 log:   function() { _logger('log', arguments); },
                 warn:  function() { _logger('warn', arguments); },
                 info:  function() { _logger('info', arguments); },
@@ -62,12 +67,14 @@ require(['config', 'shortcuts', 'tabs', 'tab_content', 'i18n', 'storage'], funct
                 error: function() { _logger('error', arguments); }
             };
             window.console = console;
-
             df.resolve();
-
             return df.promise();
         })();
 
+        // https://account.nicovideo.jp/api/v1/login?show_button_twitter=1&site=niconico&show_button_facebook=1
+        //   mail_tel:poxicfu04@infoseek.jp
+        //   password:???
+        //   auth_id:3343201646
         nicoDougaApp
             .then(config.init)
             .then(shortcuts.init)
@@ -76,6 +83,24 @@ require(['config', 'shortcuts', 'tabs', 'tab_content', 'i18n', 'storage'], funct
             .then(function() {
                 tabs.init(_templates);
                 tab_content.init(_templates);
+
+                $.ajax({
+                    url: 'https://account.nicovideo.jp/api/v1/login?show_button_twitter=1&site=niconico&show_button_facebook=1',
+                    data: {
+                        mail_tel: 'poxicfu04@infoseek.jp',
+                        password: '48694869'
+                    },
+                    type: 'POST',
+                    success: function(r) {
+                        console.log('ok');
+                        $.get('http://www.nicovideo.jp/watch/1477557557', function(r) {
+                            console.log(r.search('登入'));
+                        });
+                    },
+                    error: function(r) {
+                        console.warn('err');
+                    }
+                });
             });
     });
 });
